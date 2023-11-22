@@ -1,0 +1,43 @@
+# venv
+.venv/
+
+# python cache
+*.pyc
+__pycache__/
+
+# ??
+instance/
+
+# test
+.pytest_cache/
+.coverage
+htmlcov/
+
+# build
+dist/
+build/
+*.egg-info/
+
+# dev
+*.swo
+*.swp
+.DS_Store
+set_env_vars.sh
+
+# cndt_router
+/app/cndt_router/bin/*
+/app/cndt_router/include/*
+/app/cndt_router/lib/*
+/app/cndt_router/pyvenv.cfg
+
+# cndt_eastern_api
+/app/cndt_eastern_api/bin/*
+/app/cndt_eastern_api/include/*
+/app/cndt_eastern_api/lib/*
+/app/cndt_eastern_api/pyvenv.cfg
+
+# cndt_western_api
+/app/cndt_western_api/bin/*
+/app/cndt_western_api/include/*
+/app/cndt_western_api/lib/*
+/app/cndt_western_api/pyvenv.cfg
