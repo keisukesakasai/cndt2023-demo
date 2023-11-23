@@ -1,5 +1,7 @@
-import logging
+import base64,logging
 
+import mysql.connector
+from pymemcache.client import base
 from flask import Flask, request
 
 app = Flask(__name__)
@@ -15,7 +17,52 @@ def main():
     pref = request.args.get('pref')
     logger.info(f"Pref.: {pref}")
     
-    return "1111111111"
+    # Query Cache ( Memcache )
+    cache = query_cache(pref)
+    logger.info(f"Population in Cache: {cache}")
+    
+    if cache != None:
+        population = cache
+    else:
+        # Query DB
+        print(pref, type(pref))
+        population = query_db(pref)
+        logger.info(f"Popuration: {population}")
+
+        # Set Cache ( Memcache )
+        set_cache(pref, population)
+
+    return population
+
+def query_cache(key):
+    client = base.Client(('localhost', 11211))
+    key_cache = client.get(key)
+    
+    if key_cache is not None:
+        return key_cache
+    return None
+
+def set_cache(pref, population):
+    client = base.Client(('localhost', 11211))
+    client.set(pref, population, expire=60)
+
+def query_db(pref):
+    config = {
+        'user': 'eastern',
+        'password': 'password',
+        'host': '127.0.0.1',
+        'database': 'eastern',
+        'raise_on_warnings': True,
+    }
+    cnx = mysql.connector.connect(**config)
+    cursor = cnx.cursor()
+
+    logger.info(f"Pref.: {pref}")
+    query = "SELECT population FROM population WHERE prefecture = %s"
+    cursor.execute(query, (pref,))    
+
+    result = cursor.fetchone()
+    return str(result[0])
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8089)

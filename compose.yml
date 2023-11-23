@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   postgres:
-    image: postgres
+    image: postgres:latest
     environment:
       POSTGRES_PASSWORD: password
     volumes:
@@ -9,7 +9,36 @@ services:
     ports:
       - "5432:5432"
 
-  redis:
-    image: "redis"
+  mysql_eastern:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: eastern
+      MYSQL_USER: eastern
+      MYSQL_PASSWORD: password
     ports:
-      - "6379:6379"      
+      - "3306:3306"
+    volumes:
+      - ./app/cndt_eastern_api/assets/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  mysql_western:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: western
+      MYSQL_USER: western
+      MYSQL_PASSWORD: password
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./app/cndt_western_api/assets/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+  memcached:
+    image: memcached
+    ports:
+      - "11211:11211"      

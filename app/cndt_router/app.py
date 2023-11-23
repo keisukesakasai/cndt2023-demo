@@ -27,15 +27,18 @@ def main():
     else:
         # Query DB
         region = query_db(pref)
+        if region not in ['Eastern', 'Western']:
+            return "Invalid Prefecture Name"            
         logger.info(f"Region: {region}")
     
         # Request Backend Service
         population = send_request(pref, region)
+        population_million = int(population) / 10**4
     
         # Set Cache ( Redis )
         set_cache(region, population)
 
-    return population
+    return f"{pref} の人口は {population_million} 万人です"
 
 def query_cache(key):
     client = redis.StrictRedis(host="localhost", port=6379)
@@ -52,7 +55,11 @@ def query_db(key):
     cur = conn.cursor()
 
     cur.execute("SELECT region FROM prefectures WHERE prefecture_name = %s", (key,))
-    result_region = cur.fetchall()[0][0]
+    ret = cur.fetchone()
+    print(ret)
+    if ret is None:
+        return "Invalid Prefecture Name"
+    result_region = ret[0]
 
     cur.close()
     conn.close()
@@ -60,10 +67,10 @@ def query_db(key):
     return result_region
 
 def send_request(pref, region):
-    if region == "東日本": 
+    if region == "Eastern": 
         _url = os.getenv('EASTERN_API_URL', 'http://localhost:8089/call_eastern_api')
         url = _url + f"?pref={pref}"
-    elif region == "西日本": 
+    elif region == "Western": 
         _url = os.getenv('WESTERN_API_URL', 'http://localhost:8090/call_western_api')
         url = _url + f"?pref={pref}"
     try: 
