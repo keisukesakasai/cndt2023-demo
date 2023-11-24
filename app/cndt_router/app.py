@@ -23,7 +23,7 @@ def main():
     logger.info(f"Population in Cache: {cache}")
 
     if cache is not None:
-        population = cache
+        population = int(cache.decode('utf-8'))
     else:
         # Query DB
         region = query_db(pref)
@@ -33,10 +33,11 @@ def main():
     
         # Request Backend Service
         population = send_request(pref, region)
-        population_million = int(population) / 10**4
+
+    population_million = int(population) / 10**4
     
-        # Set Cache ( Redis )
-        set_cache(region, population)
+    # Set Cache ( Redis )
+    set_cache(pref, population)
 
     return f"{pref} の人口は {population_million} 万人です"
 
@@ -46,9 +47,9 @@ def query_cache(key):
     
     return key_cache
 
-def set_cache(region, population):
+def set_cache(pref, population):
     client = redis.StrictRedis(host="localhost", port=6379)
-    client.set(region, population, ex=60)
+    client.set(pref, population, ex=60)
 
 def query_db(key):
     conn = psycopg2.connect("postgresql://postgres:password@localhost/postgres")
@@ -56,7 +57,6 @@ def query_db(key):
 
     cur.execute("SELECT region FROM prefectures WHERE prefecture_name = %s", (key,))
     ret = cur.fetchone()
-    print(ret)
     if ret is None:
         return "Invalid Prefecture Name"
     result_region = ret[0]
