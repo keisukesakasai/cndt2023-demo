@@ -38,6 +38,5 @@ def main():
     return f"{pref} の人口は {population_million} 万人です"
 
 if __name__ == '__main__':
-    host = os.getenv('CNDT_ROUTER_HOST', '0.0.0.0')
-    port = os.getenv('CNDT_ROUTER_PORT', 8080)
+    host, port = os.getenv('CNDT_ROUTER_HOST', '0.0.0.0'), os.getenv('CNDT_ROUTER_PORT', 8080)
     app.run(host=host, port=port)
