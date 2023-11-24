@@ -7,16 +7,15 @@ from logger import setup_logger
 app = Flask(__name__)
 logger = setup_logger()
 
-# Main Hander: From Prefecture Name To Population.
+# CNDT ROUTER Main Hander: From Prefecture Name To Population.
 @app.route('/get', methods=['POST'])
 def main():
     # Get Request Data.
     pref = request.data.decode()
-    logger.info(f"Pref.: {pref}")
+    logger.info(f"リクエスト受信: {pref}")
     
     # Get Cache ( Redis ).
     cache = get_population_from_cache(pref)
-    logger.info(f"Population in Cache: {cache}")
 
     if cache is not None:
         population = cache.decode('utf-8')
@@ -24,7 +23,6 @@ def main():
         # Query DB ( Postgres ).
         region = get_region_from_db(pref)
         if region not in ['Eastern', 'Western']: return "Invalid Prefecture Name"            
-        logger.info(f"Region: {region}")
     
         # Request Backend Service ( HTTP GET Request ).
         population = send_request_to_backend(pref, region)

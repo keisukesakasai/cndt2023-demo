@@ -1,17 +1,26 @@
 import os
 import redis
 import psycopg2
+from logger import setup_logger
+
+logger = setup_logger()
 
 # Get Population from Redis.
 def get_population_from_cache(prefecture_name):
-    client = redis.StrictRedis(host=os.getenv('REDIS_HOST', 'localhost'), port=os.getenv('REDIS_PORT', 6379))
+    client = redis.StrictRedis(host=os.getenv('CNDT_ROUTER_REDIS_HOST', 'localhost'), port=os.getenv('CNDT_ROUTER_REDIS_PORT', 6379))
 
-    return client.get(prefecture_name)
+    cache = client.get(prefecture_name)
+    logger.info(f"Cache 取得: {cache}")
 
-# Set Population from Redis ( expire = 60 Sec. ).
-def set_population_to_cache(prefecture_name, population):
+    return cache
+
+# Set Population from Redis ( default expire time = 30 Sec. ).
+def set_population_to_cache(pref, population):
     client = redis.StrictRedis(host=os.getenv('CNDT_ROUTER_REDIS_HOST', 'localhost'), port=os.getenv('REDIS_PORT', 6379))
-    client.set(prefecture_name, population, ex=60)
+    expire_time = os.getenv('CNDT_ROUTER_CACHE_EXPIRE_TIME', 30)
+    
+    client.set(pref, population, ex=expire_time)
+    logger.info(f"Cache 設定 ( TTL: {expire_time} 秒 ): {pref}:{population}")
 
 # Get Region ( Eastern or Western ) from Postgres.    
 def get_region_from_db(prefecture_name):
@@ -19,9 +28,10 @@ def get_region_from_db(prefecture_name):
     cur = conn.cursor()
 
     cur.execute("SELECT region FROM prefectures WHERE prefecture_name = %s", (prefecture_name,))
-    region = cur.fetchone()
+    region = cur.fetchone()[0]
+    logger.info(f"DB からデータ取得: {region}")
 
     cur.close()
     conn.close()
     
-    return region[0] if region else None    
+    return region if region else None    

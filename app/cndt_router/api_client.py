@@ -1,8 +1,8 @@
 import os
-import logging
 import requests
+from logger import setup_logger
 
-logger = logging.getLogger(__name__)
+logger = setup_logger()
 
 def send_request_to_backend(prefecture_name, region):
     if region == "Eastern":
@@ -10,11 +10,11 @@ def send_request_to_backend(prefecture_name, region):
     elif region == "Western":
         base_url = os.getenv('CNDT_ROUTER_WESTERN_API_URL', 'http://localhost:8090/call_western_api')
     url = f"{base_url}?pref={prefecture_name}"
+    logger.info(f'URL: {url}')
     
     try:
-        logger.info(f"Sending request to URL: {url}")
         response = requests.get(url)
-        
+
         return response.text
 
     except requests.exceptions.ConnectionError as e:
