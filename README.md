@@ -3,6 +3,12 @@ Demo Shi⚪︎ty App for Cloud Native Days Tokyo 2023.
 
 <img src="img/demo-app.png" width=auto height="300">
 
+## Usage
+```sh
+❯ curl -X POST -H "Content-Type: application/json" -d 'Tokyo-To' http://localhost:8080/get
+Tokyo-To の人口は 1350.0 万人です
+```
+
 ## App
 
 ### CNDT_ROUTER
