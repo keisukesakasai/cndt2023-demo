@@ -1,7 +1,7 @@
 ## What's Is This Repository ??
 Demo Shi⚪︎ty App for Cloud Native Days Tokyo 2023.
 
-![](img/demo-app.png)
+<img src="img/demo-app.png" width=auto height="300">
 
 ## App
 
