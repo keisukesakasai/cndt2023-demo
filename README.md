@@ -1,20 +1,11 @@
-```
-pip install opentelemetry-distro==0.41b0
-opentelemetry-bootstrap -a install
-pip install opentelemetry-sdk==v1.20.0
-pip install opentelemetry-exporter-otlp==v1.20.0
+## What's Is This Repository ??
+Demo Shi⚪︎ty App for Cloud Native Days Tokyo 2023.
 
-export OTEL_SERVICE_NAME=CNDT-DEMO-EASTERN-API
-export OTEL_TRACES_EXPORTER=console,otlp
-export OTEL_METRICS_EXPORTER=console,otlp
-export OTEL_LOGS_EXPORTER=console,otlp
-export OTEL_EXPORTER_OTLP_PROTOCOL=grpc
-export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317
-```
+![](img/demo-app.png)
 
 ## App
 
-### CNDT-ROUTER
+### CNDT_ROUTER
 - Setup
 ```sh
 pip install opentelemetry-distro==0.41b0

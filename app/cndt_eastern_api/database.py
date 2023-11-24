@@ -39,13 +39,20 @@ def get_population_from_db(pref):
         'port': os.getenv('CNDT_EASTERN_API_DB_PORT', 3306),
         'raise_on_warnings': True,
     }
-    cnx = mysql.connector.connect(**config)
-    cursor = cnx.cursor()
-
-    query = "SELECT population FROM population WHERE prefecture = %s"
-    cursor.execute(query, (pref,))    
-
-    population = str(cursor.fetchone()[0])
-    logger.info(f"DB からデータ取得: {population}")
     
+    try: 
+        cnx = mysql.connector.connect(**config)
+        cursor = cnx.cursor()
+
+        query = "SELECT population FROM population WHERE prefecture = %s"
+        cursor.execute(query, (pref,))    
+        
+        result = cursor.fetchone()
+
+        population = str(result[0]) if result else "Not Found"
+        logger.info(f"DB からデータ取得: {population}")
+    finally:
+        cursor.close()
+        cnx.close()
+        
     return population
