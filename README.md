@@ -1,5 +1,5 @@
 ## What's Is This Repository ??
-Demo Shi⚪︎ty App for Cloud Native Days Tokyo 2023.
+Demo Shi⚪︎ty App ( Python ) for Cloud Native Days Tokyo 2023.
 
 <img src="img/demo-app.png" width=auto height="300">
 
@@ -34,7 +34,7 @@ export CNDT_ROUTER_WESTERN_API_URL="http://localhost:8090/call_western_api"
 
 - Usage
 ```sh
-export OTEL_SERVICE_NAME=CNDT-ROUTER
+export OTEL_SERVICE_NAME=CNDT_ROUTER
 export OTEL_TRACES_EXPORTER=otlp
 export OTEL_METRICS_EXPORTER=otlp
 export OTEL_LOGS_EXPORTER=otlp
@@ -64,7 +64,25 @@ export CNDT_EASTERN_API_DB_NAME='eastern'
 export CNDT_EASTERN_API_DB_PORT=3306
 ```
 
+- Usage
+```sh
+export OTEL_SERVICE_NAME=CNDT-EASTERN-API
+export OTEL_TRACES_EXPORTER=otlp
+export OTEL_METRICS_EXPORTER=otlp
+export OTEL_LOGS_EXPORTER=otlp
+export OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317
+
+python app.py
+```
+
 ### CNDT_WESTERN_API
+- Setup
+```sh
+pip install opentelemetry-api
+pip install opentelemetry-sdk
+pip install opentelemetry-exporter-otlp-proto-grpc
+```
 
 - Environment variable
 ```sh

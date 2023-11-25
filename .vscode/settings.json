@@ -1,0 +1,7 @@
+{
+    "python.analysis.extraPaths": [
+        "./app/cndt_router/lib/python3.11/site-packages",
+        "./app/cndt_eastern_api/lib/python3.11/site-packages",
+        "./app/cndt_western_api/lib/python3.11/site-packages",                
+    ]   
+}

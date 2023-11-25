@@ -15,10 +15,9 @@ from opentelemetry.sdk.trace.export import (
 )
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
-from opentelemetry.trace import get_tracer_provider, set_tracer_provider
 
 resource = Resource(attributes={
-    "service.name": "CNDT-EASTER-API"
+    "service.name": "CNDT_EASTERN_API"
 })
 
 tracer_provider = TracerProvider(resource=resource)
