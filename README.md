@@ -97,3 +97,8 @@ export CNDT_WESTERN_API_DB_HOST='127.0.0.1'
 export CNDT_WESTERN_API_DB_NAME='western'
 export CNDT_WESTERN_API_DB_PORT=3307
 ```
+
+### Load Generator
+```sh
+locust -f locustfile.py --headless -u 10 -r 10 --run-time 1h --host http://localhost:8080/
+```

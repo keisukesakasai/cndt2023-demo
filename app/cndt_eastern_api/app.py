@@ -23,13 +23,31 @@ resource = Resource(attributes={
 tracer_provider = TracerProvider(resource=resource)
 tracer = trace.get_tracer(__name__)
 
-url = 'http://localhost:5080/api/default/traces'
+url_traces = 'http://localhost:5080/api/default/v1/traces'
 headers = {"Authorization": "Basic cm9vdEBleGFtcGxlLmNvbTpDb21wbGV4cGFzcyMxMjMK"}
-otlp_exporter = OTLPSpanExporter(endpoint=url, headers=headers)
-span_processor = BatchSpanProcessor(otlp_exporter)
-tracer_provider.add_span_processor(span_processor=BatchSpanProcessor(span_exporter=otlp_exporter))
+otlp_exporter_traces = OTLPSpanExporter(endpoint=url_traces, headers=headers)
+
+tracer_provider.add_span_processor(span_processor=BatchSpanProcessor(span_exporter=otlp_exporter_traces))
 tracer_provider.add_span_processor(span_processor=SimpleSpanProcessor(span_exporter=ConsoleSpanExporter()))
 trace.set_tracer_provider(tracer_provider)
+
+# === OTel COnfiguration. ( Metrics )
+from opentelemetry import metrics
+from opentelemetry.sdk.metrics import MeterProvider
+from opentelemetry.exporter.otlp.proto.http.metric_exporter import OTLPMetricExporter
+from opentelemetry.sdk.metrics.export import (
+    ConsoleMetricExporter,
+    PeriodicExportingMetricReader,
+)
+
+url_metrics = 'http://localhost:5080/api/default/v1/metrics'
+otlp_reader = PeriodicExportingMetricReader(OTLPMetricExporter(endpoint=url_metrics, headers=headers))
+console_reader = PeriodicExportingMetricReader(ConsoleMetricExporter())
+
+metrics_provider = MeterProvider(metric_readers=[otlp_reader, console_reader], resource=resource)
+metrics.set_meter_provider(metrics_provider)
+
+meter = metrics.get_meter(__name__)
 
 # === Auto Instrument
 from opentelemetry.instrumentation.flask import FlaskInstrumentor

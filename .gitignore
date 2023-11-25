@@ -42,5 +42,12 @@ set_env_vars.sh
 /app/cndt_western_api/lib/*
 /app/cndt_western_api/pyvenv.cfg
 
+# cndt_western_api
+/app/load_generator/bin/*
+/app/load_generator/include/*
+/app/load_generator/lib/*
+/app/load_generator/pyvenv.cfg
+
+
 # openobserve
 data/
