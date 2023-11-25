@@ -41,3 +41,6 @@ set_env_vars.sh
 /app/cndt_western_api/include/*
 /app/cndt_western_api/lib/*
 /app/cndt_western_api/pyvenv.cfg
+
+# openobserve
+data/

@@ -14,7 +14,7 @@ from opentelemetry.sdk.trace.export import (
     SimpleSpanProcessor,
 )
 from opentelemetry.sdk.resources import Resource
-from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
 
 resource = Resource(attributes={
     "service.name": "CNDT_EASTERN_API"
@@ -23,7 +23,9 @@ resource = Resource(attributes={
 tracer_provider = TracerProvider(resource=resource)
 tracer = trace.get_tracer(__name__)
 
-otlp_exporter = OTLPSpanExporter(endpoint="http://localhost:4317", insecure=True)
+url = 'http://localhost:5080/api/default/traces'
+headers = {"Authorization": "Basic cm9vdEBleGFtcGxlLmNvbTpDb21wbGV4cGFzcyMxMjMK"}
+otlp_exporter = OTLPSpanExporter(endpoint=url, headers=headers)
 span_processor = BatchSpanProcessor(otlp_exporter)
 tracer_provider.add_span_processor(span_processor=BatchSpanProcessor(span_exporter=otlp_exporter))
 tracer_provider.add_span_processor(span_processor=SimpleSpanProcessor(span_exporter=ConsoleSpanExporter()))
