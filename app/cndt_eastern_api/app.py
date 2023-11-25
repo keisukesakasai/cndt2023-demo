@@ -35,10 +35,8 @@ from opentelemetry.instrumentation.flask import FlaskInstrumentor
 from opentelemetry.instrumentation.pymemcache import PymemcacheInstrumentor
 from opentelemetry.instrumentation.mysql import MySQLInstrumentor
 
-instrumentor = FlaskInstrumentor()
 app = Flask(__name__)
-instrumentor.instrument_app(app)
-
+FlaskInstrumentor().instrument_app(app)
 PymemcacheInstrumentor().instrument()
 MySQLInstrumentor().instrument()
 
