@@ -7,6 +7,13 @@ logger = setup_logger()
 
 # Get Population from Redis.
 def get_population_from_cache(prefecture_name):
+    # Check Cache Activation.
+    cache_active = os.getenv('CNDT_ROUTER_CACHE_ACTIVE', "True")
+    cache_active = cache_active.lower()
+    if cache_active != 'true':
+        logger.info(f"Cache 無効: ACTIVATE PARAM {cache_active}")
+        return None
+    
     client = redis.StrictRedis(host=os.getenv('CNDT_ROUTER_REDIS_HOST', 'localhost'), port=os.getenv('CNDT_ROUTER_REDIS_PORT', 6379))
 
     cache = client.get(prefecture_name)

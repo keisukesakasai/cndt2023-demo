@@ -7,6 +7,13 @@ logger = setup_logger()
 
 # Get Population from Memchache.
 def get_population_from_cache(key):
+    # Check Cache Activation.
+    cache_active = os.getenv('CNDT_EASTERN_API_CACHE_ACTIVE', "True")
+    cache_active = cache_active.lower()
+    if cache_active != 'true':
+        logger.info(f"Cache 無効: ACTIVATE PARAM {cache_active}")
+        return None
+    
     memcache_host = os.getenv('CNDT_WESTERN_API_MEMCACHE_HOST', 'localhost')
     memcache_port = int(os.getenv('CNDT_WESTERN_API_MEMCACHE_PORT', 11211))
 

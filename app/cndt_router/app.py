@@ -1,4 +1,4 @@
-import os
+import os, time, random
 from flask import Flask, request
 from database import get_population_from_cache, set_population_to_cache, get_region_from_db
 from api_client import send_request_to_backend
@@ -32,6 +32,9 @@ def main():
     
     # Set Cache ( Redis ).
     set_population_to_cache(pref, population)
+    
+    # Random Sleep.
+    time.sleep(random.uniform(0, 1))    
 
     return f"{pref} の人口は {population_million} 万人です"
 

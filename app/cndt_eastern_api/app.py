@@ -1,4 +1,4 @@
-import os
+import os, time, random
 from flask import Flask, request
 from database import get_population_from_cache, set_population_to_cache, get_population_from_db
 from logger import setup_logger
@@ -28,7 +28,7 @@ headers = {"Authorization": "Basic cm9vdEBleGFtcGxlLmNvbTpDb21wbGV4cGFzcyMxMjMK"
 otlp_exporter_traces = OTLPSpanExporter(endpoint=url_traces, headers=headers)
 
 tracer_provider.add_span_processor(span_processor=BatchSpanProcessor(span_exporter=otlp_exporter_traces))
-tracer_provider.add_span_processor(span_processor=SimpleSpanProcessor(span_exporter=ConsoleSpanExporter()))
+# tracer_provider.add_span_processor(span_processor=SimpleSpanProcessor(span_exporter=ConsoleSpanExporter()))
 trace.set_tracer_provider(tracer_provider)
 
 # === OTel COnfiguration. ( Metrics )
@@ -42,9 +42,9 @@ from opentelemetry.sdk.metrics.export import (
 
 url_metrics = 'http://localhost:5080/api/default/v1/metrics'
 otlp_reader = PeriodicExportingMetricReader(OTLPMetricExporter(endpoint=url_metrics, headers=headers))
-console_reader = PeriodicExportingMetricReader(ConsoleMetricExporter())
-
-metrics_provider = MeterProvider(metric_readers=[otlp_reader, console_reader], resource=resource)
+# console_reader = PeriodicExportingMetricReader(ConsoleMetricExporter())
+# metrics_provider = MeterProvider(metric_readers=[otlp_reader, console_reader], resource=resource)
+metrics_provider = MeterProvider(metric_readers=[otlp_reader], resource=resource)
 metrics.set_meter_provider(metrics_provider)
 
 meter = metrics.get_meter(__name__)
@@ -77,6 +77,9 @@ def main():
 
         # Set Cache ( Memcache )
         set_population_to_cache(pref, population)
+
+    # Random Sleep.
+    time.sleep(random.uniform(0, 3))
 
     return population
 

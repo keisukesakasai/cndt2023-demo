@@ -1,4 +1,4 @@
-import os
+import os, time, random
 from flask import Flask, request
 from database import get_population_from_cache, set_population_to_cache, get_population_from_db
 from logger import setup_logger
@@ -57,6 +57,9 @@ def main():
 
             # Set Cache ( Memcache )
             set_population_to_cache(pref, population)
+        
+        # Random Sleep.
+        time.sleep(random.uniform(0, 1))
 
         return population
 
