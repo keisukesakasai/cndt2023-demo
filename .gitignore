@@ -48,6 +48,15 @@ set_env_vars.sh
 /app/load_generator/lib/*
 /app/load_generator/pyvenv.cfg
 
-
 # openobserve
 data/
+
+# misk
+/misk/research-python/bin/*
+/misk/research-python/include/*
+/misk/research-python/lib/*
+/misk/research-python/pyvenv.cfg
+/misk/debug-opentelemetry-instrument/bin/*
+/misk/debug-opentelemetry-instrument/include/*
+/misk/debug-opentelemetry-instrument/lib/*
+/misk/debug-opentelemetry-instrument/pyvenv.cfg
