@@ -3,6 +3,7 @@ from flask import Flask, request
 from database import get_population_from_cache, set_population_to_cache, get_population_from_db
 from logger import setup_logger
 
+app = Flask(__name__)
 logger = setup_logger()
 
 # === OTel Configuration.
@@ -49,12 +50,18 @@ metrics.set_meter_provider(metrics_provider)
 
 meter = metrics.get_meter(__name__)
 
+# Custom Metrics ( Updown Counter )
+request_counter = meter.create_up_down_counter(
+    name="http_requests_by_prefecture",
+    description="Number of HTTP Request of 都道府県",
+    unit="1",
+)
+
 # === Auto Instrument
 from opentelemetry.instrumentation.flask import FlaskInstrumentor
 from opentelemetry.instrumentation.pymemcache import PymemcacheInstrumentor
 from opentelemetry.instrumentation.mysql import MySQLInstrumentor
 
-app = Flask(__name__)
 FlaskInstrumentor().instrument_app(app)
 PymemcacheInstrumentor().instrument()
 MySQLInstrumentor().instrument()
@@ -62,9 +69,11 @@ MySQLInstrumentor().instrument()
 # CNDT EASTERN API Main Hander: From Prefecture Name To Population.
 @app.route('/call_eastern_api', methods=['GET'])
 def main():
-    # Get Data
+    # Get Data.
     pref = request.args.get('pref')
     logger.info(f"リクエスト受信: {pref}")
+    # Counter Pref.
+    request_counter.add(1, {"prefecture": pref})
     
     # Get Cache ( Memcache ).
     cache = get_population_from_cache(pref)

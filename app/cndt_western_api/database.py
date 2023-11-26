@@ -15,6 +15,13 @@ def get_population_from_cache(key):
     kind=trace.SpanKind.INTERNAL,
     # attributes=collect_request_attributes(request.environ),
     ):
+        # Check Cache Activation.
+        cache_active = os.getenv('CNDT_EASTERN_API_CACHE_ACTIVE', "True")
+        cache_active = cache_active.lower()
+        if cache_active != 'true':
+            logger.info(f"Cache 無効: ACTIVATE PARAM {cache_active}")
+            return None
+
         memcache_host = os.getenv('CNDT_WESTERN_API_MEMCACHE_HOST', 'localhost')
         memcache_port = int(os.getenv('CNDT_WESTERN_API_MEMCACHE_PORT', 11211))
 
