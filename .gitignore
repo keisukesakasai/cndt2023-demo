@@ -57,8 +57,12 @@ data/
 # /misk/research-python/lib/*
 /misk/research-python/pyvenv.cfg
 
-
 /misk/debug-opentelemetry-instrument/bin/*
 /misk/debug-opentelemetry-instrument/include/*
 /misk/debug-opentelemetry-instrument/lib/*
 /misk/debug-opentelemetry-instrument/pyvenv.cfg
+
+/misk/deepdive-instrumentor/bin/*
+/misk/deepdive-instrumentor/include/*
+/misk/deepdive-instrumentor/lib/*
+/misk/deepdive-instrumentor/pyvenv.cfg
