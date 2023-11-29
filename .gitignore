@@ -48,6 +48,18 @@ set_env_vars.sh
 /app/load_generator/lib/*
 /app/load_generator/pyvenv.cfg
 
+# cndt_western_api
+/app/app_for_k8soperator/client/bin/*
+/app/app_for_k8soperator/client/include/*
+/app/app_for_k8soperator/client/lib/*
+/app/app_for_k8soperator/client/pyvenv.cfg
+
+/app/app_for_k8soperator/server/bin/*
+/app/app_for_k8soperator/server/include/*
+/app/app_for_k8soperator/server/lib/*
+/app/app_for_k8soperator/server/pyvenv.cfg
+
+
 # openobserve
 data/
 
