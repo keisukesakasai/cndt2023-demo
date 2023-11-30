@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app-for-k8soperator-go-server-pod
+  labels:
+    app: app-for-k8soperator-go-server-pod
+  annotations: 
+    instrumentation.opentelemetry.io/inject-go: "true"
+    instrumentation.opentelemetry.io/otel-go-auto-target-exe: "/root/app_for_k8soperator_go_server"
+spec:
+  shareProcessNamespace: true
+  containers:
+  - name: app-for-k8soperator-go-server
+    image: ghcr.io/keisukesakasai/app_for_k8soperator_go_server:latest
+    ports:
+    - containerPort: 8080
+    imagePullPolicy: Always
+    env:    
+      - name: OTEL_SERVICE_NAME
+        value: "OTEL_GO_SERVER"
+    securityContext:
+      capabilities:
+        add:
+          - SYS_PTRACE
+      privileged: true
+      runAsUser: 0        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-for-k8soperator-go-server-service
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: app-for-k8soperator-go-server-pod
+    

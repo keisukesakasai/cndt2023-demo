@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app-for-k8soperator-client-pod
+  labels:
+    app: app-for-k8soperator-client-pod
+  annotations:
+    instrumentation.opentelemetry.io/inject-python: "true"
+spec:
+  containers:
+    - name: app-for-k8soperator-client
+      image: ghcr.io/keisukesakasai/app_for_k8soperator_client:latest
+      env:
+        - name: SERVER_URL
+          value: "http://app-for-k8soperator-server-service:80"
+        - name: SERVER_URL_GO_SERVER
+          value: "http://app-for-k8soperator-go-server-service:80"
+        - name: SERVER_URL_NODEJS_SERVER
+          value: "http://app-for-k8soperator-nodejs-server-service:80"
+        - name: REDIS_URL
+          value: "redis-master"
+      ports:
+        - containerPort: 8080
+      imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-for-k8soperator-client-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    app: app-for-k8soperator-client-pod
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app-for-k8soperator-server-pod
+  labels:
+    app: app-for-k8soperator-server-pod
+  annotations:
+    instrumentation.opentelemetry.io/inject-python: "true"
+spec:
+  containers:
+    - name: app-for-k8soperator-server
+      image: ghcr.io/keisukesakasai/app_for_k8soperator_server:latest
+      env:
+        - name: REDIS_URL
+          value: "redis-master"
+      ports:
+        - containerPort: 8080
+      imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-for-k8soperator-server-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    app: app-for-k8soperator-server-pod

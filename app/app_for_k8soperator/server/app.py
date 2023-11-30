@@ -30,7 +30,7 @@ def hello_world():
         "自動計装だけど、一個だけ Span を挟んでみるムーブ",
         kind=trace.SpanKind.CLIENT) as span:
 
-        time.sleep(0.1)
+        time.sleep(0.01) # 10ms
         span.set_attribute("my_attribute", "foo")    
     
     # 受け取ったデータを Redis に保存

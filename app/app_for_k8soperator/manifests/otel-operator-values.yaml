@@ -1,0 +1,2 @@
+manager:
+  featureGates: "operator.autoinstrumentation.go,operator.autoinstrumentation.python,operator.autoinstrumentation.nodejs,operator.autoinstrumentation.multi-instrumentation"
