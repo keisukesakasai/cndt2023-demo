@@ -84,6 +84,10 @@ data/
 /misk/deepdive-go-auto-instrument/client/lib/*
 /misk/deepdive-go-auto-instrument/client/pyvenv.cfg
 
+/misk/java-app/python_client/bin/*
+/misk/java-app/python_client/include/*
+/misk/java-app/python_client/lib/*
+/misk/java-app/python_client/pyvenv.cfg
 
 
 # Ignore Gradle project-specific cache directory

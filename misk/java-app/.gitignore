@@ -1,0 +1,39 @@
+# ビルドされた実行可能ファイル、クラスファイル、jarファイル
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# ビルドディレクトリ（GradleとMaven）
+build/
+out/
+target/
+
+# Gradleファイル
+.gradle/*
+gradlew
+gradlew.bat
+gradle-wrapper.jar
+gradle-wrapper.properties
+
+# ローカル設定ファイル
+*.iml
+*.ipr
+*.iws
+.idea/
+*.swp
+*.swo
+*~
+
+# OSやエディタに関連するファイル
+.DS_Store
+Thumbs.db
+
+# ログファイル
+*.log
+
+# 他の一般的な無視されるファイル
+node_modules/
