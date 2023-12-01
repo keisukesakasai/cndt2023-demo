@@ -78,3 +78,16 @@ data/
 /misk/deepdive-instrumentor/include/*
 /misk/deepdive-instrumentor/lib/*
 /misk/deepdive-instrumentor/pyvenv.cfg
+
+/misk/deepdive-go-auto-instrument/client/bin/*
+/misk/deepdive-go-auto-instrument/client/include/*
+/misk/deepdive-go-auto-instrument/client/lib/*
+/misk/deepdive-go-auto-instrument/client/pyvenv.cfg
+
+
+
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build
