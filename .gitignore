@@ -89,6 +89,16 @@ data/
 /misk/java-app/python_client/lib/*
 /misk/java-app/python_client/pyvenv.cfg
 
+/misk/flask-auto-instrumentation/auto-instrumentation/bin/*
+/misk/flask-auto-instrumentation/auto-instrumentation/include/*
+/misk/flask-auto-instrumentation/auto-instrumentation/lib/*
+/misk/flask-auto-instrumentation/auto-instrumentation/pyvenv.cfg
+
+/misk/flask-auto-instrumentation/programmatic-instrumentation/bin/*
+/misk/flask-auto-instrumentation/programmatic-instrumentation/include/*
+/misk/flask-auto-instrumentation/programmatic-instrumentation/lib/*
+/misk/flask-auto-instrumentation/programmatic-instrumentation/pyvenv.cfg
+
 
 # Ignore Gradle project-specific cache directory
 .gradle

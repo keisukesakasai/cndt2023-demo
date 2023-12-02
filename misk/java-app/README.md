@@ -17,5 +17,9 @@ java -jar ./app/build/libs/app.jar
 
 - Execute：Python のクライアント
 ```sh
+export OTEL_SERVICE_NAME=CNDT2023-DEMO-PythonAPP
+export OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317
 
+opentelemetry-instrument python app.py
 ```
