@@ -21,6 +21,7 @@ def main():
         population = cache.decode('utf-8')
     else:
         # Query DB ( Postgres ).
+        # region = "Eastern"
         region = get_region_from_db(pref)
         if region not in ['Eastern', 'Western']: return "Invalid Prefecture Name"            
     
@@ -34,7 +35,7 @@ def main():
     set_population_to_cache(pref, population)
     
     # Random Sleep.
-    time.sleep(random.uniform(0, 1))    
+    # time.sleep(random.uniform(0, 0.1))
 
     return f"{pref} の人口は {population_million} 万人です"
 

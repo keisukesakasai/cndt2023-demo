@@ -45,19 +45,19 @@ url_metrics = 'http://localhost:5080/api/default/v1/metrics'
 otlp_reader = PeriodicExportingMetricReader(OTLPMetricExporter(endpoint=url_metrics, headers=headers))
 # console_reader = PeriodicExportingMetricReader(ConsoleMetricExporter())
 # metrics_provider = MeterProvider(metric_readers=[otlp_reader, console_reader], resource=resource)
-metrics_provider = MeterProvider(metric_readers=[otlp_reader], resource=resource)
-metrics.set_meter_provider(metrics_provider)
+# metrics_provider = MeterProvider(metric_readers=[otlp_reader], resource=resource)
+# metrics.set_meter_provider(metrics_provider)
 
-meter = metrics.get_meter(__name__)
+# meter = metrics.get_meter(__name__)
 
 # Custom Metrics ( Updown Counter )
-request_counter = meter.create_up_down_counter(
-    name="http_requests_by_prefecture",
-    description="Number of HTTP Request of 都道府県",
-    unit="1",
-)
+# request_counter = meter.create_up_down_counter(
+#     name="http_requests_by_prefecture",
+#     description="Number of HTTP Request of 都道府県",
+#     unit="1",
+# )
 
-# === Auto Instrument
+# === Use Instrument Library
 from opentelemetry.instrumentation.flask import FlaskInstrumentor
 from opentelemetry.instrumentation.pymemcache import PymemcacheInstrumentor
 from opentelemetry.instrumentation.mysql import MySQLInstrumentor
@@ -73,7 +73,7 @@ def main():
     pref = request.args.get('pref')
     logger.info(f"リクエスト受信: {pref}")
     # Counter Pref.
-    request_counter.add(1, {"prefecture": pref})
+    # request_counter.add(1, {"prefecture": pref})
     
     # Get Cache ( Memcache ).
     cache = get_population_from_cache(pref)
@@ -88,7 +88,7 @@ def main():
         set_population_to_cache(pref, population)
 
     # Random Sleep.
-    time.sleep(random.uniform(0, 3))
+    # time.sleep(random.uniform(0, 3))
 
     return population
 

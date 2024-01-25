@@ -44,7 +44,7 @@ services:
       - "11211:11211"
 
   openobserve:
-    image: public.ecr.aws/zinclabs/openobserve:latest
+    image: public.ecr.aws/zinclabs/openobserve:v0.7.0
     ports:
       - 5080:5080
     volumes:
